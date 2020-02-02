@@ -8,3 +8,5 @@ write_sdf -force [file join $wrkdir "${top}.sdf"]
 
 # Export the current netlist in verilog format
 write_verilog -mode timesim -force [file join ${wrkdir} "${top}.v"]
+
+write_mem_info -force [file join ${wrkdir} "${top}.mmi"] 

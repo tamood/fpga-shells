@@ -20,6 +20,9 @@ if {[info exists pre_impl_debug_tcl]} {
 # Post synthesis optimization
 source [file join $scriptdir "opt.tcl"]
 
+# Floorplan the design
+source [file join $scriptdir "floorplan.tcl"]
+
 # Place the design
 source [file join $scriptdir "place.tcl"]
 
@@ -32,7 +35,7 @@ source [file join $scriptdir "bitstream.tcl"]
 # Post-implementation debug
 if {[info exists post_impl_debug_tcl)]} {
   source [file join $scriptdir $post_impl_debug_tcl]
-}
+#}
 
 # Create reports for the current implementation
 source [file join $scriptdir "report.tcl"]
