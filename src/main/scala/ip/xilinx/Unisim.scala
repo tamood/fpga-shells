@@ -153,6 +153,35 @@ extends BlackBox(
   })
 }
 
+/** STARTUPE2 -- Primitive block to enable application communication with flash device on Arty. */
+
+class STARTUPE2(
+  PROG_USR : Boolean = false,
+  SIM_CCLK_FREQ : Double = 0
+) 
+extends BlackBox(
+  Map(
+    "PROG_USR" -> booleanToVerilogStringParam(PROG_USR),
+    "SIM_CCLK_FREQ" ->  DoubleParam(SIM_CCLK_FREQ)
+  )
+) {
+  val io = IO(new Bundle {
+    val CFGCLK = Output(Clock())
+    val CFGMCLK = Output(Clock())
+    val EOS = Output(Bool())
+    val PREQ = Output(Bool())
+    val CLK = Input(Clock())
+    val GSR = Input(Bool())
+    val GTS = Input(Bool())
+    val KEYCLEARB = Input(Bool())
+    val PACK = Input(Bool())
+    val USRCCLKO = Input(Clock())
+    val USRCCLKTS = Input(Bool())
+    val USRDONEO = Input(Bool())
+    val USRDONETS = Input(Bool())
+  })
+}
+
 /** IDDR - 7 Series SelectIO DDR flop */
 
 class IDDR(
@@ -401,3 +430,39 @@ object KEEPER {
     }
 }
 
+class BUFGMUX extends BlackBox {
+  val io = IO(new Bundle {
+    val O = Output(Clock())
+    val S = Input(Bool())
+    val I1 = Input(Clock())
+    val I0 = Input(Clock())
+  })
+}
+
+object BUFGMUX {
+  def apply(sel: Bool, c1: Clock, c0: Clock ): Clock = {
+    val buf = Module (new BUFGMUX)
+    buf.io.S := sel
+    buf.io.I1 := c1
+    buf.io.I0 := c0
+    buf.io.O
+  }
+}
+
+class BSCANE2(USER_CHAIN: Int = 4) extends BlackBox(Map(
+  "JTAG_CHAIN" -> IntParam(USER_CHAIN)
+  )) {
+  val io = IO(new Bundle {
+    val CAPTURE = Output(Bool())
+    val DRCK = Output(Bool())
+    val RESET = Output(Bool())
+    val RUNTEST = Output(Bool())
+    val SEL = Output(Bool())
+    val SHIFT = Output(Bool())
+    val TCK = Output(Clock())
+    val TDI = Output(Bool())
+    val TMS = Output(Bool())
+    val UPDATE = Output(Bool())
+    val TDO = Input(Bool())
+  })
+}

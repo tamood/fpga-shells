@@ -41,3 +41,6 @@ if {[info exists post_impl_debug_tcl]} {
 
 # Create reports for the current implementation
 source [file join $scriptdir "report.tcl"]
+
+# Create MMI file for BootROM XPM flow
+write_mem_info -quiet -force [file join ${wrkdir} "${top}.mmi"] 
