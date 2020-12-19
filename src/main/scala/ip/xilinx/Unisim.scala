@@ -153,6 +153,35 @@ extends BlackBox(
   })
 }
 
+/** STARTUPE2 -- Primitive block to enable application communication with flash device on Arty. */
+
+class STARTUPE2(
+  PROG_USR : Boolean = false,
+  SIM_CCLK_FREQ : Double = 0
+) 
+extends BlackBox(
+  Map(
+    "PROG_USR" -> booleanToVerilogStringParam(PROG_USR),
+    "SIM_CCLK_FREQ" ->  DoubleParam(SIM_CCLK_FREQ)
+  )
+) {
+  val io = IO(new Bundle {
+    val CFGCLK = Output(Clock())
+    val CFGMCLK = Output(Clock())
+    val EOS = Output(Bool())
+    val PREQ = Output(Bool())
+    val CLK = Input(Clock())
+    val GSR = Input(Bool())
+    val GTS = Input(Bool())
+    val KEYCLEARB = Input(Bool())
+    val PACK = Input(Bool())
+    val USRCCLKO = Input(Clock())
+    val USRCCLKTS = Input(Bool())
+    val USRDONEO = Input(Bool())
+    val USRDONETS = Input(Bool())
+  })
+}
+
 /** IDDR - 7 Series SelectIO DDR flop */
 
 class IDDR(
